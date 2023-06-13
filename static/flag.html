@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CTF Challenge</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">CTF Challenge</a>
+    </nav>
+
+    <!-- Form to submit flags -->
+    <div class="container mt-4">
+      <h3>Submit your Flag</h3>
+      <form id="flag-submit-form">
+        <div class="form-group">
+          <label for="emailInput">Email address</label>
+          <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="flagInput">Flag</label>
+          <input type="text" class="form-control" id="flagInput" placeholder="Enter flag">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <!-- Feedback messages container -->
+    <div class="container mt-4" id="feedback-container"></div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <!-- Form submission handling -->
+    <script>
+    $(document).ready(function() {
+        $("#flag-submit-form").on("submit", function(e) {
+            e.preventDefault();  // Prevent the form from submitting normally
+
+            var email = $("#emailInput").val();
+            var flag = $("#flagInput").val();
+
+            $.ajax({
+                url: "/flag",  // Your backend endpoint
+                type: "post",
+                data: JSON.stringify({
+                    email: email,
+                    flag: flag
+                }),
+                contentType: "application/json",
+                success: function(response) {
+                    // On success, show the flag message
+                    $("#feedback-container").html("<p class='alert alert-success'>" + response + "</p>");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // On error, show the error message
+                    $("#feedback-container").html("<p class='alert alert-danger'>" + jqXHR.responseText + "</p>");
+                }
+            });
+        });
+    });
+    </script>
+  </body>
+</html>

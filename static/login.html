@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            var data = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    document.getElementById('message').innerText = data.error; // Display the text in the "message" div
+                }
+            });
+        }
+    </script>
+</head>
+<body class="bg-light">
+    <div role="alert" class="alert alert-primary text-center">
+      This is a CTF for Polkadot Decoded 2023. For instructions, visit the
+      <a href="https://github.com/paritytech/appsec_ctf_decoded23"
+        target="_blank">official repository</a>.
+    </div>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <form onsubmit="submitForm(event)" class="bg-white p-4 rounded shadow-sm" style="width: 300px;">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Login</h1>
+            <div id="message" class="text-center mb-3"></div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control">
+            </div>
+            <input type="submit" value="Login" class="btn btn-primary btn-block">
+            <button type="button" onclick="location.href='/sign_up'" class="btn btn-secondary btn-block mt-3">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>

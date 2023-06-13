@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        #game {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+        .player, .enemy {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+        }
+        .player {
+            background-color: #0f0;
+        }
+        .enemy {
+            background-color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Welcome Admin</h1>
+                <p class="text-center">Do not forget to enter your flags!</p>
+            </div>
+            <div class="col-12 text-center">
+                <div id="game"></div>
+                <p>Coins: <span id="coins">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var player = document.createElement('div');
+        player.className = 'player';
+        var game = document.getElementById('game');
+        game.appendChild(player);
+
+        var enemy = document.createElement('div');
+        enemy.className = 'enemy';
+        game.appendChild(enemy);
+
+        var coins = 0;
+        var coinDisplay = document.getElementById('coins');
+
+        setInterval(function() {
+            player.style.left = Math.random() * (game.offsetWidth - player.offsetWidth) + 'px';
+            player.style.top = Math.random() * (game.offsetHeight - player.offsetHeight) + 'px';
+            enemy.style.left = Math.random() * (game.offsetWidth - enemy.offsetWidth) + 'px';
+            enemy.style.top = Math.random() * (game.offsetHeight - enemy.offsetHeight) + 'px';
+        }, 2000);
+
+        game.addEventListener('click', function(e) {
+            if (e.target === enemy) {
+                coins++;
+                coinDisplay.textContent = coins;
+                enemy.style.left = Math.random() * (game.offsetWidth - enemy.offsetWidth) + 'px';
+                enemy.style.top = Math.random() * (game.offsetHeight - enemy.offsetHeight) + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

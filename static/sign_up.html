@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <form id="signupForm" class="bg-white p-4 rounded shadow-sm" style="width: 300px;">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Sign Up</h1>
+            <input id="idField" type="hidden" name="id">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control">
+            </div>
+            <input type="submit" value="Sign Up" class="btn btn-primary btn-block">
+            <button type="button" onclick="location.href='/login'" class="btn btn-secondary btn-block mt-3">Login</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Create a function to retrieve the new user ID
+            function getNewUserId() {
+                $.post("/get_new_user_id", function(data) {
+                    $("#idField").val(data);
+                });
+            }
+
+            // Call it initially when the page loads
+            getNewUserId();
+
+            $('#signupForm').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url:'/sign_up',
+                    type:'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "id": parseInt($("#idField").val(), 10),  // Parse the value as an integer
+                        "username": $("#username").val(),
+                        "password": $("#password").val(),
+                    }),
+                    success: function(){
+                        alert("Successfully signed up!");
+                        getNewUserId(); // Retrieve a new user ID after a successful signup
+                    },
+                    error: function(error){
+                        alert("An error occurred: " + error.responseText);
+                        getNewUserId(); // Retrieve a new user ID after an error
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

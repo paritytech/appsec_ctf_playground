@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="table-responsive">
+            <h3 class="mb-4">Current User</h3>
+            <table id="currentUser" class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Profile</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="table-responsive mt-5">
+            <h3 class="mb-4">Online Users</h3>
+            <table id="onlineUsers" class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.post("/get_user_info", function(data) {
+                const tr = $("<tr />");
+                tr.append($("<td />").text(data.username));
+                let role;
+                if (data.isAdmin) {
+                    role = 'Admin';
+                } else if (data.is_invited_user) {
+                    role = 'Invited';
+                } else {
+                    role = 'Normal';
+                }
+                tr.append($("<td />").text(role));
+                tr.append($("<td />").append($("<button />", {class: "btn btn-primary", text: "Go to Profile", onclick: `location.href='/user_profile'`})));
+                $("#currentUser > tbody").append(tr);
+            });
+    
+            $.post("/online_users", function(data) {
+                $.each(data, function(_, userInfo) {
+                    const tr = $("<tr />");
+                    tr.append($("<td />").text(userInfo.id));
+                    tr.append($("<td />").text(userInfo.username));
+                    let role;
+                    if (userInfo.isAdmin) {
+                        role = 'Admin';
+                    } else if (userInfo.is_invited_user) {
+                        role = 'Invited';
+                    } else {
+                        role = 'Normal';
+                    }
+                    tr.append($("<td />").text(role));
+                    $("#onlineUsers > tbody").append(tr);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
