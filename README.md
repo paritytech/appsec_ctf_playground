@@ -1,4 +1,4 @@
-# Decoded Capture The Flag (CTF) Challenge
+# Parity's AppSec Capture The Flag (CTF) Challenge
 
 Welcome to our Capture the Flag (CTF) challenge! This challenge is built around a Rust web application using the Actix framework, and will test your ability to perform both dynamic testing on the application and a static audit on the provided backend code. Your goal is to find and exploit vulnerabilities to locate and capture a series of flags scattered throughout the system.
 
