@@ -21,5 +21,5 @@ There are four tasks that need to be completed:
 1. Only attack the target, not the CTF platform itself.
 2. Flags or explicit solutions should not be shared with other participants.
 3. The tasks are not solveable with automated tools, and useage of automated tools are prohibited. Understanding the code, the vulnerabilities, and crafting targeted exploits is required.
-4. Use a valid email when submitting the flags and only use `/flag` for submission.
+4. For flag submission, visit the ctf.parity.tech/flag endpoint and make sure to use a valid email when submitting the flags.
 5. Have fun and treat this as a learning experience!
